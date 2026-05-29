@@ -5,7 +5,7 @@ const botaoWhatssap = document.querySelector('.orcamento');
 
 botaoWhatssap.addEventListener('click', function() {
 
-    window.open('https://api.whatsapp.com/send?phone=5511963789008&text=Oh,%20arruma%20meu%20pc%20ai%20vei', '_blank');
+    window.open('https://api.whatsapp.com/send?phone=559999999&text=Oh,%20arruma%20meu%20pc%20ai%20vei', '_blank');
 
     // Quando o botão for clicado, a função anônima é executada, abrindo uma nova janela do navegador com a URL do WhatsApp para enviar uma mensagem pré-definida para o número especificado.
 });
