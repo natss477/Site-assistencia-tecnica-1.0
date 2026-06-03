@@ -1,336 +1,284 @@
-const botaoWhatssap = document.querySelector('.orcamento');
-
-// Adiciona um evento de clique ao botão de orçamento 
-// document.querySelector procura um elemento no HTML com a classe 'orcamento' e o armazena na variável 'botao'
-
-botaoWhatssap.addEventListener('click', function() {
-
-    window.open('https://api.whatsapp.com/send?phone=559999999&text=Oh,%20arruma%20meu%20pc%20ai%20vei', '_blank');
-
-    // Quando o botão for clicado, a função anônima é executada, abrindo uma nova janela do navegador com a URL do WhatsApp para enviar uma mensagem pré-definida para o número especificado.
-});
-
-const botaoInstagram = document.querySelector('.instagram');
-
-botaoInstagram.addEventListener('click', function() {
-
-    window.open('https://instagram.com/seu_perfil', '_blank');
-
-});
-
-// O código acima adiciona um evento de clique ao botão com a classe 'instagram', que, quando clicado, abre o perfil do Instagram em uma nova janela do navegador. Certifique-se de substituir 'seu_perfil' pelo nome de usuário real do Instagram que deseja vincular.  
-
 const titulo = document.querySelector('.titulo');
-
 const botaoOrcamento = document.querySelector('.orcamento');
+const botaoInstagram = document.querySelector('.instagram');
+const secaoServicos = document.querySelector('.cards');
+const botaoMostrarServicos = document.querySelector('.mostrar-servicos');
 
-botaoOrcamento.addEventListener('click', function() {
-// Adiciona um evento de clique ao botão de orçamento
-
-        titulo.innerHTML = 'Obrigado por solicitar um orçamento!';
-
+if (botaoOrcamento && titulo) {
+    botaoOrcamento.addEventListener('click', function() {
+        window.open('https://api.whatsapp.com/send?phone=559999999&text=Oh,%20arruma%20meu%20pc%20ai%20vei', '_blank');
+        titulo.textContent = 'Obrigado por solicitar um orcamento!';
         titulo.classList.add('ativo');
-
     });
+}
 
-    const secaoServicos = document.querySelector('.cards');
+if (botaoInstagram) {
+    botaoInstagram.addEventListener('click', function() {
+        window.open('https://instagram.com/seu_perfil', '_blank');
+    });
+}
 
-    const botaoMostrarServicos = document.querySelector('.mostrar-servicos');
-
-    botaoMostrarServicos.addEventListener('click', function() { 
+if (botaoMostrarServicos && secaoServicos) {
+    botaoMostrarServicos.addEventListener('click', function() {
         secaoServicos.classList.toggle('esconder');
     });
-
-// O código acima adiciona um evento de clique ao botão com a classe 'mostrar-servicos'. Quando o botão é clicado, ele alterna a classe 'esconder' na seção de serviços, mostrando ou ocultando os serviços listados. Certifique-se de que a classe 'esconder' esteja definida no CSS para controlar a visibilidade da seção de serviços.   
+}
 
 const cards = document.querySelectorAll('.card');
 
 cards.forEach(function(card) {
-
     card.classList.add('mostrar');
-
-
 });
 
 const bolinhas = document.querySelectorAll('.bolinha');
-
-function atualizarIndicadores() {
-
-    bolinhas.forEach(function(bolinha) {
-        
-        bolinha.classList.remove('ativa');
-
-    });
-
-    bolinhas[imagematual].classList.add('ativa');
-
-}
-    
-
 const imagem = document.querySelector('.imagem-carrossel');
+const botaoProximo = document.querySelector('.proximo');
+const botaoAnterior = document.querySelector('.anterior');
 
 const imagens = [
-
     'img/img1.jpg',
     'img/img2.jpg',
     'img/img3.jpg',
-    'img/img4.jpg',
+    'img/img4.jpg'
+];
 
-
-
-
-]
-
-
-let imagematual = 0;
-
+let imagemAtual = 0;
 let animado = false;
 
-const botaoProximo = document.querySelector('.proximo');
-
-botaoProximo.addEventListener('click', function() {
-
-    if(animado) return;
-
-    animado = true;
-
-    imagematual++;
-
-    if(imagematual >= imagens.length) {
-        imagematual = 0;
-
-    }
-    
-    imagem.style.opacity = 0;
-
-    setTimeout(function() {
-
-        animado = false;
-
-        imagem.src = imagens[imagematual];
-
-        imagem.style.opacity = 1;
-
-        atualizarIndicadores();
-
-    }, 500);
-
-});
-
-const botaoAnterior = document.querySelector('.anterior');
-
-botaoAnterior.addEventListener('click', function() {
-
-    if(animado) return;
-
-    animado = true;
-
-    imagematual--;
-
-    if(imagematual < 0) {
-        
-        imagematual = imagens.length - 1;
-
-    }
-
-    imagem.style.opacity = 0;
-
-    setTimeout(function() {
-
-        imagem.src = imagens[imagematual];
-
-        imagem.style.opacity = 1;
-
-        atualizarIndicadores();
-
-        animado = false;
-    }, 500);
-
-});
-
-setInterval(function() {
-
-    if(animado) return;
-
-    animado = true;
-
-    imagematual++;
-
-    if(imagematual >= imagens.length) {
-
-        imagematual = 0;
-
-    }
-
-    imagem.style.opacity = 0;
-
-    setTimeout(function() {
-
-        imagem.src = imagens[imagematual];
-
-        imagem.style.opacity = 1;
-
-        atualizarIndicadores();
-
-        animado = false;
-
-    }, 500);
-
-}, 5000);
-
-bolinhas.forEach(function(bolinha, index) {
-
-    bolinha.addEventListener('click', function() {
-
-        imagematual = index;
-
-        imagem.style.opacity = 0;
-
-        setTimeout(function() {
-
-            imagem.src = imagens[imagematual];
-
-            imagem.style.opacity = 1;
-
-            atualizarIndicadores();
-
-        }, 500);
-
+function atualizarIndicadores() {
+    bolinhas.forEach(function(bolinha) {
+        bolinha.classList.remove('ativa');
     });
 
-});
+    if (bolinhas[imagemAtual]) {
+        bolinhas[imagemAtual].classList.add('ativa');
+    }
+}
 
+function irParaImagem(indice) {
+    if (!imagem || animado || imagens.length === 0) {
+        return;
+    }
+
+    animado = true;
+
+    if (indice >= imagens.length) {
+        imagemAtual = 0;
+    } else if (indice < 0) {
+        imagemAtual = imagens.length - 1;
+    } else {
+        imagemAtual = indice;
+    }
+
+    imagem.style.opacity = 0;
+
+    setTimeout(function() {
+        imagem.src = imagens[imagemAtual];
+        imagem.style.opacity = 1;
+        atualizarIndicadores();
+        animado = false;
+    }, 500);
+}
+
+if (imagem && imagens.length > 0) {
+    imagem.src = imagens[0];
+    atualizarIndicadores();
+
+    if (botaoProximo) {
+        botaoProximo.addEventListener('click', function() {
+            irParaImagem(imagemAtual + 1);
+        });
+    }
+
+    if (botaoAnterior) {
+        botaoAnterior.addEventListener('click', function() {
+            irParaImagem(imagemAtual - 1);
+        });
+    }
+
+    setInterval(function() {
+        if (animado) {
+            return;
+        }
+
+        irParaImagem(imagemAtual + 1);
+    }, 5000);
+
+    bolinhas.forEach(function(bolinha, index) {
+        bolinha.addEventListener('click', function() {
+            if (animado) {
+                return;
+            }
+
+            irParaImagem(index);
+        });
+    });
+}
 
 const botaoChat = document.querySelector('.botao-chat');
-
 const chatFlutuante = document.querySelector('.chat-flutuante');
+const botaoEnviar = document.querySelector('.enviar-chat');
+const inputChat = document.querySelector('.input-chat');
+const chatBox = document.querySelector('.chat-box');
 
-botaoChat.addEventListener('click', function() {
+if (botaoChat && chatFlutuante) {
+    botaoChat.addEventListener('click', function() {
+        const vaiAbrir = chatFlutuante.classList.contains('esconder-chat');
 
-    chatFlutuante.classList.toggle('esconder-chat');
+        chatFlutuante.classList.toggle('esconder-chat');
+        chatFlutuante.classList.toggle('chat-ativo');
 
-    chatFlutuante.classList.toggle('chat-ativo');
-}); 
+        botaoChat.setAttribute('aria-expanded', vaiAbrir ? 'true' : 'false');
+    });
+}
 
 function criarMensagem(texto, tipo) {
+    if (!chatBox) {
+        return null;
+    }
 
     const hora = new Date().toLocaleTimeString('pt-BR', {
-
         hour: '2-digit',
-
         minute: '2-digit'
-
     });
 
     const mensagem = document.createElement('div');
+    mensagem.classList.add('mensagem', tipo, 'animar-mensagem');
 
-    mensagem.classList.add('mensagem');
+    const conteudo = document.createElement('div');
+    conteudo.classList.add('conteudo-mensagem');
 
-    mensagem.classList.add(tipo);
+    const avatar = document.createElement('div');
+    avatar.classList.add('avatar');
+    avatar.textContent = tipo === 'cliente' ? '\u{1F464}' : '\u{1F468}\u200D\u{1F4BB}';
 
-    mensagem.classList.add('animar-mensagem');
+    const textoMensagem = document.createElement('div');
+    textoMensagem.classList.add('texto-mensagem');
 
-     mensagem.innerHTML = `
-    
-        <div class="conteudo-mensagem">
+    const paragrafo = document.createElement('p');
+    paragrafo.textContent = texto;
 
-            <div class="avatar">
-                ${tipo === 'cliente' ? '👤' : '👨‍💻'}
-            </div>
+    const horaMensagem = document.createElement('span');
+    horaMensagem.textContent = hora;
 
-            <div class="texto-mensagem">
-                <p>${texto}</p>
-                <span>${hora}</span>
-            </div>
-
-        </div>  
-
-    `;
-
-
+    textoMensagem.appendChild(paragrafo);
+    textoMensagem.appendChild(horaMensagem);
+    conteudo.appendChild(avatar);
+    conteudo.appendChild(textoMensagem);
+    mensagem.appendChild(conteudo);
 
     chatBox.appendChild(mensagem);
-
     chatBox.scrollTop = chatBox.scrollHeight;
 
     return mensagem;
 }
 
-const botaoEnviar = document.querySelector('.enviar-chat');
-
-const inputChat = document.querySelector('.input-chat');
-
-const chatBox = document.querySelector('.chat-box');
-
-botaoEnviar.addEventListener('click', function() {
-    const rawText = inputChat.value || '';
-    const mensagemUsuario = rawText.trim().toLowerCase();
-
-    if (mensagemUsuario === '') return;
-
-    let respostaTexto = '';
-
-    if (mensagemUsuario.includes('travando')) {
-        respostaTexto = 'Isso pode ser superaquecimento ou excesso de programas.';
-    } else if (mensagemUsuario.includes('formatar')) {
-        respostaTexto = 'Podemos fazer uma formatação com todos seus aquivos salvos.';
-    } else if (mensagemUsuario.includes('orçamento')) {
-        respostaTexto = 'Para solicitar um orçamento, por favor, clique no botão de orçamento em nosso site ou entre em contato conosco pelo WhatsApp.';
-    } else if (mensagemUsuario.includes('limpeza')) {
-        respostaTexto = 'Podemos fazer uma Limpeza completa consulte nossos orçamentos.';
-    } else if (
-        mensagemUsuario.includes('oi') ||
-        mensagemUsuario.includes('olá') ||
-        mensagemUsuario.includes('ola') ||
-        mensagemUsuario.includes('bom dia')
-    ) {
-        respostaTexto = 'Olá bom dia(Tarde), o que precisa?';
-    } else {
-        respostaTexto = 'Desculpe, não entendi. Pode reformular?';
+function criarIndicadorDigitando() {
+    if (!chatBox) {
+        return null;
     }
 
-    criarMensagem(rawText, 'cliente');
-
     const digitando = document.createElement('div');
-    digitando.classList.add('mensagem', 'tecnico');
-    digitando.classList.add('animar-mensagem')
+    digitando.classList.add('mensagem', 'tecnico', 'animar-mensagem');
     digitando.innerHTML = `
         <div class="digitando">
             <span></span>
             <span></span>
             <span></span>
         </div>
-    `;        
+    `;
+
     chatBox.appendChild(digitando);
-
     chatBox.scrollTop = chatBox.scrollHeight;
+    return digitando;
+}
 
-    setTimeout(function() {
+function normalizarTexto(texto) {
+    return texto
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '');
+}
 
-        digitando.remove();
+function escolherResposta(mensagemUsuario) {
+    const mensagem = normalizarTexto(mensagemUsuario);
 
-       criarMensagem(respostaTexto, 'tecnico');
+    if (mensagem.includes('travando') || mensagem.includes('lento')) {
+        return 'Isso pode ser superaquecimento, excesso de programas ou pouca memoria. Podemos fazer um diagnostico para descobrir a causa.';
+    }
 
-        chatBox.scrollTop = chatBox.scrollHeight;
+    if (mensagem.includes('formatar') || mensagem.includes('formatacao')) {
+        return 'Podemos fazer uma formatacao com backup dos seus arquivos importantes antes de reinstalar o sistema.';
+    }
 
+    if (mensagem.includes('limpeza') || mensagem.includes('poeira')) {
+        return 'Fazemos limpeza interna, remocao de poeira e troca de pasta termica para ajudar no resfriamento.';
+    }
 
+    if (mensagem.includes('upgrade') || mensagem.includes('memoria') || mensagem.includes('ssd')) {
+        return 'Upgrade de memoria ou SSD costuma melhorar bastante o desempenho. Podemos avaliar qual peca combina com seu equipamento.';
+    }
 
-    }, 2000);
+    if (mensagem.includes('backup') || mensagem.includes('recuperar') || mensagem.includes('arquivos')) {
+        return 'Podemos ajudar com backup e recuperacao de arquivos. O ideal e evitar mexer muito no equipamento ate avaliar.';
+    }
 
-    chatBox.scrollTop = chatBox.scrollHeight;
+    if (mensagem.includes('orcamento') || mensagem.includes('preco') || mensagem.includes('valor')) {
+        return 'O valor depende do servico e do estado do equipamento. Para um orcamento mais certo, chame no WhatsApp e explique o problema.';
+    }
 
-    inputChat.value = '';
+    if (mensagem.includes('horario') || mensagem.includes('atendimento')) {
+        return 'Nosso atendimento e de segunda a sabado, das 08:00 as 18:00.';
+    }
 
+    if (
+        mensagem.includes('oi') ||
+        mensagem.includes('ola') ||
+        mensagem.includes('bom dia') ||
+        mensagem.includes('boa tarde') ||
+        mensagem.includes('boa noite')
+    ) {
+        return 'Ola! Me conte qual problema seu computador ou notebook esta apresentando.';
+    }
 
+    return 'Nao entendi totalmente. Voce pode falar se o problema e lentidao, formatacao, limpeza, upgrade, backup ou orcamento?';
+}
 
-});
-
-inputChat.addEventListener('keypress', function(e) {
-
-        if(e.key === 'Enter') {
-
-            botaoEnviar.click();
-
+if (botaoEnviar && inputChat && chatBox) {
+    botaoEnviar.addEventListener('click', function() {
+        if (botaoEnviar.disabled) {
+            return;
         }
 
+        const rawText = inputChat.value || '';
+        const textoLimpo = rawText.trim();
+
+        if (textoLimpo === '') {
+            return;
+        }
+
+        criarMensagem(textoLimpo, 'cliente');
+        inputChat.value = '';
+        inputChat.focus();
+
+        const digitando = criarIndicadorDigitando();
+        const respostaTexto = escolherResposta(textoLimpo);
+        botaoEnviar.disabled = true;
+
+        setTimeout(function() {
+            if (digitando) {
+                digitando.remove();
+            }
+
+            criarMensagem(respostaTexto, 'tecnico');
+            botaoEnviar.disabled = false;
+            inputChat.focus();
+        }, 1200);
     });
+
+    inputChat.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            botaoEnviar.click();
+        }
+    });
+}

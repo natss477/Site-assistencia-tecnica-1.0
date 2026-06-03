@@ -48,6 +48,14 @@ body {
     width: 500px;
 }
 
+.descricao-home {
+   max-width: 42ch;
+   line-height: 1.7;
+   font-size: 19px;
+   color: #dbe7f5;
+   margin-bottom: 20px;
+}
+
 h1 {
     color: #3eb9ee;
     font-size: 60px;
@@ -104,6 +112,31 @@ img {
 .contato {
     margin-top: 20px;
     text-align: center;
+    font-style: normal;
+}
+
+.contato p {
+    margin: 0;
+}
+
+.contato p + p {
+    margin-top: 8px;
+}
+
+.contato a {
+    color: #cbd5e1;
+    text-decoration: none;
+}
+
+.contato a:hover {
+    color: #38bdf8;
+}
+
+.microcopy {
+    margin-top: 18px;
+    margin-bottom: 0;
+    font-size: 16px;
+    color: #a5b4c8;
 }
 
 /* Estilização para telas menores, tornando o layout mais responsivo */
@@ -129,6 +162,11 @@ img {
 
     }
 
+    .titulo {
+        font-size: 30px;
+        text-align: center;
+    }
+
     img {
         width: 250px;
         margin-top: 30px;
@@ -147,6 +185,22 @@ img {
         flex-direction: column;
         width: 100%;
         max-width: 250px;
+    }
+
+    .passos {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .passo {
+        width: min(320px, 100%);
+        text-align: center;
+    }
+
+    .descricao-home,
+    .microcopy {
+        margin-inline: auto;
+        
     }
 }
 
@@ -171,6 +225,16 @@ header {
     display: flex;
     gap: 20px;
     margin-top: 15px;
+    margin-bottom: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.titulo {
+    color: #3eb9ee;
+    font-size: 48px;
+    font-weight: 700;
+    margin: 0;
 }
 
 /* Estilização dos links do menu de navegação */
@@ -300,10 +364,12 @@ html {
     justify-content: center;
 
     gap: 20px;
+
+    max-width: 100%;
 }
 
 .imagem-carrossel {
-    width: 550px;
+    width: min(550px, 92vw);
 
     object-fit: cover;
 
@@ -357,6 +423,41 @@ html {
 
 }
 
+.processo {
+    padding: 80px 50px;
+    text-align: center;
+}
+
+.passos {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 40px;
+}
+
+.passo {
+    background-color: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 28px;
+    width: 220px;
+    text-align: left;
+    backdrop-filter: blur(10px);
+}
+
+.passo h3 {
+    margin-top: 0;
+    color: #38bdf8;
+}
+
+.passo p {
+    margin: 0;
+    font-size: 16px;
+    color: #cbd5e1;
+    line-height: 1.6;
+}
+
 .sobre-container {
     display: flex;
 
@@ -386,6 +487,12 @@ html {
     line-height: 1.8;
 
     color: #cbd5e1;
+    font-size: 18px;
+    margin-bottom: 16px;
+}
+
+.sobre-texto p:last-child {
+    margin-bottom: 0;
 }
 
 .card i {
@@ -670,6 +777,10 @@ html {
 
     cursor: pointer;
 
+    padding: 0;
+
+    margin: 0;
+
     box-shadow: 0 0 20px rgba(56,189,248,0.3);
 
     z-index: 999;
@@ -684,7 +795,7 @@ html {
 
     right: 30px;
 
-    width: 600px;
+    width: min(600px, calc(100vw - 24px));
 
    background-color: #111;
 
@@ -759,7 +870,7 @@ html {
 
     border-radius: 12px;
 
-    margin: 0p;
+    margin: 0;
 }
 
 .mensagem span {
@@ -777,8 +888,29 @@ html {
 
 .animar-mensagem {
 
-    animation: subirMensagem 0.4 ease;
+    animation: subirMensagem 0.4s ease;
 
+}
+
+.botao-chat:focus-visible {
+    outline: 3px solid #ffffff;
+    outline-offset: 3px;
+}
+
+@media (max-width: 768px) {
+    .carrossel {
+        flex-direction: column;
+    }
+
+    .chat-flutuante {
+        right: 12px;
+        bottom: 105px;
+    }
+
+    .botao-chat {
+        right: 16px;
+        bottom: 16px;
+    }
 }
 
 @keyframes subirMensagem {
