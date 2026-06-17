@@ -57,6 +57,11 @@ function enviarJson(res, statusCode, payload) {
     res.end(JSON.stringify(payload));
 }
 
+function enviarTexto(res, statusCode, mensagem) {
+    res.writeHead(statusCode, { 'Content-Type': 'text/plain; charset=utf-8' });
+    res.end(mensagem);
+}
+
 function lerCorpo(req) {
     return new Promise((resolve, reject) => {
         let body = '';
@@ -115,11 +120,21 @@ function resolverCaminhoSeguro(urlPath) {
 }
 
 async function responderArquivo(req, res) {
-    const arquivo = resolverCaminhoSeguro(req.url);
+    let arquivo;
+
+    try {
+        arquivo = resolverCaminhoSeguro(req.url);
+    } catch (error) {
+        if (error instanceof URIError) {
+            enviarTexto(res, 400, 'URL invalida.');
+            return;
+        }
+
+        throw error;
+    }
 
     if (!arquivo || !fs.existsSync(arquivo) || fs.statSync(arquivo).isDirectory()) {
-        res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
-        res.end('Arquivo nao encontrado.');
+        enviarTexto(res, 404, 'Arquivo nao encontrado.');
         return;
     }
 
@@ -128,14 +143,28 @@ async function responderArquivo(req, res) {
     const conteudo = fs.readFileSync(arquivo);
 
     res.writeHead(200, { 'Content-Type': type });
+
+    if (req.method === 'HEAD') {
+        res.end();
+        return;
+    }
+
     res.end(conteudo);
 }
 
 async function responderIA(req, res) {
     try {
         const bodyRaw = await lerCorpo(req);
-        const body = bodyRaw ? JSON.parse(bodyRaw) : {};
-        const mensagem = (body.message || '').trim();
+        let body;
+
+        try {
+            body = bodyRaw ? JSON.parse(bodyRaw) : {};
+        } catch (error) {
+            enviarJson(res, 400, { error: 'JSON invalido.' });
+            return;
+        }
+
+        const mensagem = typeof body.message === 'string' ? body.message.trim() : '';
 
         if (!mensagem) {
             enviarJson(res, 400, { error: 'Mensagem obrigatoria.' });
@@ -182,18 +211,23 @@ async function responderIA(req, res) {
 }
 
 const server = http.createServer(async (req, res) => {
-    if (req.method === 'POST' && req.url === '/api/chat') {
-        await responderIA(req, res);
-        return;
-    }
+    try {
+        if (req.method === 'POST' && req.url === '/api/chat') {
+            await responderIA(req, res);
+            return;
+        }
 
-    if (req.method === 'GET' || req.method === 'HEAD') {
-        await responderArquivo(req, res);
-        return;
-    }
+        if (req.method === 'GET' || req.method === 'HEAD') {
+            await responderArquivo(req, res);
+            return;
+        }
 
-    res.writeHead(405, { 'Content-Type': 'text/plain; charset=utf-8' });
-    res.end('Metodo nao permitido.');
+        enviarTexto(res, 405, 'Metodo nao permitido.');
+    } catch (error) {
+        if (!res.headersSent) {
+            enviarJson(res, 500, { error: 'Erro interno no servidor.' });
+        }
+    }
 });
 
 server.listen(PORT, () => {

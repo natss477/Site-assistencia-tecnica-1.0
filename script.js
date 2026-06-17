@@ -1,28 +1,27 @@
 const titulo = document.querySelector('.titulo');
 const botaoOrcamento = document.querySelector('.orcamento');
 const botaoInstagram = document.querySelector('.instagram');
-const secaoServicos = document.querySelector('.cards');
-const botaoMostrarServicos = document.querySelector('.mostrar-servicos');
+const rodape = document.querySelector('.footer');
+
+const telefoneWhatsApp = '5511999999999';
+const mensagemWhatsApp = 'Olá! Gostaria de solicitar um orçamento para assistência técnica.';
 
 if (botaoOrcamento && titulo) {
     botaoOrcamento.addEventListener('click', function() {
-        window.open('https://api.whatsapp.com/send?phone=559999999&text=Oh,%20arruma%20meu%20pc%20ai%20vei', '_blank');
-        titulo.textContent = 'Obrigado por solicitar um orcamento!';
+        const linkWhatsApp = `https://api.whatsapp.com/send?phone=${telefoneWhatsApp}&text=${encodeURIComponent(mensagemWhatsApp)}`;
+
+        window.open(linkWhatsApp, '_blank', 'noopener,noreferrer');
+        titulo.textContent = 'Obrigado por solicitar um orçamento!';
         titulo.classList.add('ativo');
     });
 }
 
-if (botaoInstagram) {
+if (botaoInstagram && rodape) {
     botaoInstagram.addEventListener('click', function() {
-        window.open('https://instagram.com/seu_perfil', '_blank');
+        rodape.scrollIntoView({ behavior: 'smooth' });
     });
 }
 
-if (botaoMostrarServicos && secaoServicos) {
-    botaoMostrarServicos.addEventListener('click', function() {
-        secaoServicos.classList.toggle('esconder');
-    });
-}
 
 const cards = document.querySelectorAll('.card');
 
@@ -48,10 +47,12 @@ let animado = false;
 function atualizarIndicadores() {
     bolinhas.forEach(function(bolinha) {
         bolinha.classList.remove('ativa');
+        bolinha.removeAttribute('aria-current');
     });
 
     if (bolinhas[imagemAtual]) {
         bolinhas[imagemAtual].classList.add('ativa');
+        bolinhas[imagemAtual].setAttribute('aria-current', 'true');
     }
 }
 
@@ -180,13 +181,16 @@ function criarIndicadorDigitando() {
 
     const digitando = document.createElement('div');
     digitando.classList.add('mensagem', 'tecnico', 'animar-mensagem');
-    digitando.innerHTML = `
-        <div class="digitando">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    `;
+
+    const animacaoDigitando = document.createElement('div');
+    animacaoDigitando.classList.add('digitando');
+
+    for (let contador = 0; contador < 3; contador += 1) {
+        const ponto = document.createElement('span');
+        animacaoDigitando.appendChild(ponto);
+    }
+
+    digitando.appendChild(animacaoDigitando);
 
     chatBox.appendChild(digitando);
     chatBox.scrollTop = chatBox.scrollHeight;
@@ -204,31 +208,31 @@ function escolherResposta(mensagemUsuario) {
     const mensagem = normalizarTexto(mensagemUsuario);
 
     if (mensagem.includes('travando') || mensagem.includes('lento')) {
-        return 'Isso pode ser superaquecimento, excesso de programas ou pouca memoria. Podemos fazer um diagnostico para descobrir a causa.';
+        return 'Isso pode ser superaquecimento, excesso de programas ou pouca memória. Podemos fazer um diagnóstico para descobrir a causa.';
     }
 
     if (mensagem.includes('formatar') || mensagem.includes('formatacao')) {
-        return 'Podemos fazer uma formatacao com backup dos seus arquivos importantes antes de reinstalar o sistema.';
+        return 'Podemos fazer uma formatação com backup dos seus arquivos importantes antes de reinstalar o sistema.';
     }
 
     if (mensagem.includes('limpeza') || mensagem.includes('poeira')) {
-        return 'Fazemos limpeza interna, remocao de poeira e troca de pasta termica para ajudar no resfriamento.';
+        return 'Fazemos limpeza interna, remoção de poeira e troca de pasta térmica para ajudar no resfriamento.';
     }
 
     if (mensagem.includes('upgrade') || mensagem.includes('memoria') || mensagem.includes('ssd')) {
-        return 'Upgrade de memoria ou SSD costuma melhorar bastante o desempenho. Podemos avaliar qual peca combina com seu equipamento.';
+        return 'Upgrade de memória ou SSD costuma melhorar bastante o desempenho. Podemos avaliar qual peça combina com seu equipamento.';
     }
 
     if (mensagem.includes('backup') || mensagem.includes('recuperar') || mensagem.includes('arquivos')) {
-        return 'Podemos ajudar com backup e recuperacao de arquivos. O ideal e evitar mexer muito no equipamento ate avaliar.';
+        return 'Podemos ajudar com backup e recuperação de arquivos. O ideal é evitar mexer muito no equipamento até avaliar.';
     }
 
     if (mensagem.includes('orcamento') || mensagem.includes('preco') || mensagem.includes('valor')) {
-        return 'O valor depende do servico e do estado do equipamento. Para um orcamento mais certo, chame no WhatsApp e explique o problema.';
+        return 'O valor depende do serviço e do estado do equipamento. Para um orçamento mais certo, chame no WhatsApp e explique o problema.';
     }
 
     if (mensagem.includes('horario') || mensagem.includes('atendimento')) {
-        return 'Nosso atendimento e de segunda a sabado, das 08:00 as 18:00.';
+        return 'Nosso atendimento é de segunda a sábado, das 08:00 às 18:00.';
     }
 
     if (
@@ -238,14 +242,52 @@ function escolherResposta(mensagemUsuario) {
         mensagem.includes('boa tarde') ||
         mensagem.includes('boa noite')
     ) {
-        return 'Ola! Me conte qual problema seu computador ou notebook esta apresentando.';
+        return 'Olá! Me conte qual problema seu computador ou notebook está apresentando.';
     }
 
-    return 'Nao entendi totalmente. Voce pode falar se o problema e lentidao, formatacao, limpeza, upgrade, backup ou orcamento?';
+    return 'Não entendi totalmente. Você pode falar se o problema é lentidão, formatação, limpeza, upgrade, backup ou orçamento?';
+}
+
+async function buscarRespostaIA(mensagemUsuario) {
+    if (window.location.protocol === 'file:') {
+        return '';
+    }
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(function() {
+        controller.abort();
+    }, 4000);
+
+    try {
+        const resposta = await fetch('/api/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ message: mensagemUsuario }),
+            signal: controller.signal
+        });
+
+        if (!resposta.ok) {
+            return '';
+        }
+
+        const data = await resposta.json();
+        return typeof data.reply === 'string' ? data.reply.trim() : '';
+    } catch (error) {
+        return '';
+    } finally {
+        clearTimeout(timeoutId);
+    }
+}
+
+async function obterRespostaChat(mensagemUsuario) {
+    const respostaIA = await buscarRespostaIA(mensagemUsuario);
+    return respostaIA || escolherResposta(mensagemUsuario);
 }
 
 if (botaoEnviar && inputChat && chatBox) {
-    botaoEnviar.addEventListener('click', function() {
+    botaoEnviar.addEventListener('click', async function() {
         if (botaoEnviar.disabled) {
             return;
         }
@@ -262,8 +304,8 @@ if (botaoEnviar && inputChat && chatBox) {
         inputChat.focus();
 
         const digitando = criarIndicadorDigitando();
-        const respostaTexto = escolherResposta(textoLimpo);
         botaoEnviar.disabled = true;
+        const respostaTexto = await obterRespostaChat(textoLimpo);
 
         setTimeout(function() {
             if (digitando) {
@@ -276,8 +318,8 @@ if (botaoEnviar && inputChat && chatBox) {
         }, 1200);
     });
 
-    inputChat.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') {
+    inputChat.addEventListener('keydown', function(evento) {
+        if (evento.key === 'Enter') {
             botaoEnviar.click();
         }
     });
