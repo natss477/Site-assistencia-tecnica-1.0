@@ -1,238 +1,66 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assis Tech - Assistência Técnica</title>
-    <meta name="description" content="Site demonstrativo de assistência técnica para computadores e notebooks, com carrossel, serviços, atendimento e chat local.">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-</head>
-<body>
-    <header>
-        <nav class="navbar" aria-label="Navegação principal">
-            <p class="titulo">Assis Tech - Assistência Técnica</p>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>TI Estoque</title>
 
-            <ul class="menu" role="list">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#servicos">Serviços</a></li>
-                <li><a href="#processo">Processo</a></li>
-                <li><a href="#contato">Contato</a></li>
-                <li><a href="#sobre">Sobre</a></li>
-            </ul>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <header>
+            <h1>MONTEKALI | TI</h1>
+        </header>
+
+        <div class="container">
+
+        <nav>
+            <button id="btnEstoque">Estoque</button>
+            <button id="btnRetirar">Retirar</button>
+            <button id="btnDevolver">Devolver</button>
+            <button id="btnStatusCompra">Status de Compra</button>
+            <button id="btnLogout">Sair</button>
         </nav>
-    </header>
 
-    <main>
-        <section class="container" id="home" aria-labelledby="home-titulo">
-            <div class="texto">
-                <h1 id="home-titulo">Assis Tech</h1>
-                <h2>Assistência técnica especializada em computadores e notebooks</h2>
+        <img src="logo-monte-serrat.png" class="logo-fundo">
 
-                <p class="descricao-home">Formatação, limpeza e upgrade com foco em desempenho e segurança.</p>
+        <main id="conteudo">
 
-                <button class="orcamento" type="button">
-                    Solicitar orçamento
-                </button>
-                <button class="instagram" type="button">
-                    Ver redes sociais
-                </button>
 
-                <p class="microcopy">Atendimento com diagnóstico inicial em até 24h.</p>
-            </div>
-
-            <div class="area-carrossel">
-                <div class="carrossel">
-                    <button class="anterior" type="button" aria-label="Imagem anterior">&#11013;</button>
-
-                    <img
-                        class="imagem-carrossel"
-                        src="img/img1.jpg"
-                        alt="Técnico realizando manutenção em computador"
-                    >
-
-                    <button class="proximo" type="button" aria-label="Próxima imagem">&#10145;</button>
-                </div>
-
-                <div class="indicadores" aria-label="Selecionar imagem do carrossel">
-                    <button class="bolinha ativa" type="button" aria-label="Mostrar imagem 1" aria-current="true"></button>
-                    <button class="bolinha" type="button" aria-label="Mostrar imagem 2"></button>
-                    <button class="bolinha" type="button" aria-label="Mostrar imagem 3"></button>
-                    <button class="bolinha" type="button" aria-label="Mostrar imagem 4"></button>
-                </div>
-
-                <address class="contato" id="contato">
-                    <p>Seg a Sab, 08:00 às 18:00</p>
-                    <p><a href="tel:+5511999999999">(11) 99999-9999</a> | <a href="mailto:contato@assistech.com.br">contato@assistech.com.br</a></p>
-                </address>
-            </div>
-        </section>
-
-        <section class="servicos" id="servicos" aria-labelledby="servicos-titulo">
-            <h2 id="servicos-titulo">Nossos serviços</h2>
-
-            <div class="cards" role="list">
-                <article class="card aparecer" role="listitem">
-                    <i class="fa-solid fa-screwdriver-wrench" aria-hidden="true"></i>
-                    <h3>Limpeza</h3>
-                    <p>Limpeza completa e troca de pasta térmica</p>
-                </article>
-
-                <article class="card aparecer" role="listitem">
-                    <i class="fa-solid fa-laptop-code" aria-hidden="true"></i>
-                    <h3>Formatação</h3>
-                    <p>Formatação completa do sistema operacional</p>
-                </article>
-
-                <article class="card aparecer" role="listitem">
-                    <i class="fa-solid fa-memory" aria-hidden="true"></i>
-                    <h3>Upgrade</h3>
-                    <p>Instalação de novos componentes para melhorar o desempenho</p>
-                </article>
-
-                <article class="card aparecer" role="listitem">
-                    <i class="fa-solid fa-hard-drive" aria-hidden="true"></i>
-                    <h3>Backup e Recuperação</h3>
-                    <p>Proteção de dados e recuperação de arquivos importantes.</p>
-                </article>
-            </div>
-        </section>
-
-        <section class="processo" id="processo" aria-labelledby="processo-titulo">
-            <h2 id="processo-titulo">Como funciona o atendimento</h2>
-
-            <div class="passos" role="list">
-                <article class="passo" role="listitem">
-                    <h3>1. Diagnóstico</h3>
-                    <p>Análise técnica para identificar a causa do problema.</p>
-                </article>
-
-                <article class="passo" role="listitem">
-                    <h3>2. Orçamento</h3>
-                    <p>Aprovação com prazo e valor antes de iniciar o serviço.</p>
-                </article>
-
-                <article class="passo" role="listitem">
-                    <h3>3. Entrega</h3>
-                    <p>Equipamento testado e orientação de uso para o dia a dia.</p>
-                </article>
-            </div>
-        </section>
-
-        <section class="sobre" id="sobre" aria-labelledby="sobre-titulo">
-            <h2 id="sobre-titulo">Sobre nós</h2>
-
-            <div class="sobre-container">
-                <div class="sobre-texto">
-                    <p>
-                        Somos especializados em suporte técnico para computadores e notebooks, com foco em rapidez,
-                        transparência e comunicação clara durante todo o serviço.
-                    </p>
-
-                    <p>
-                        Nosso objetivo é devolver desempenho ao seu equipamento com segurança e orientação técnica
-                        simples para você continuar trabalhando ou estudando sem dor de cabeça.
-                    </p>
+            <div class="page-header">
+                <div>
+                    <h2 id="tituloPagina">Equipamentos</h2>
+                    <p>Controle de equipamentos do TI</p>
                 </div>
             </div>
-        </section>
 
-        <section class="estatisticas" aria-label="Recursos demonstrados no site">
-            <article class="estatistica">
-                <h2>4</h2>
-                <p>Serviços apresentados</p>
-            </article>
+            <section class="estoque">
 
-            <article class="estatistica">
-                <h2>3</h2>
-                <p>Etapas de atendimento</p>
-            </article>
+                <div class="card">
+                    <h3>Monitores</h3>
+                    <strong id="qtdMonitores">10</strong>
+                    <span>disponiveis</span>
+                </div>
 
-            <article class="estatistica">
-                <h2>1</h2>
-                <p>Chat local interativo</p>
-            </article>
-        </section>
+                <div class="card">
+                    <h3>Notebooks</h3>
+                    <strong id="qtdNotebooks">5</strong>
+                    <span>disponiveis</span>
+                </div>
 
-        <section class="avaliacoes" aria-labelledby="avaliacoes-titulo">
-            <h2 id="avaliacoes-titulo">Diferenciais do atendimento</h2>
+                <div class="card">
+                    <h3>Teclados</h3>
+                    <strong id="qtdTeclados">15</strong>
+                    <span>disponiveis</span>
+                </div>
 
-            <div class="avaliacoes-container" role="list">
-                <article class="avaliacao" role="listitem">
-                    <div class="estrelas" aria-hidden="true">&#11088;&#11088;&#11088;&#11088;&#11088;</div>
-                    <p>
-                        Comunicação clara sobre o problema, prazo e próximos passos antes de iniciar o serviço.
-                    </p>
-                    <h3>Transparência</h3>
-                </article>
+            </section>
 
-                <article class="avaliacao" role="listitem">
-                    <div class="estrelas" aria-hidden="true">&#11088;&#11088;&#11088;&#11088;&#11088;</div>
-                    <p>
-                        Diagnóstico organizado para identificar a causa do problema e evitar trocas desnecessárias.
-                    </p>
-                    <h3>Precisão</h3>
-                </article>
+            
+        </main>
 
-                <article class="avaliacao" role="listitem">
-                    <div class="estrelas" aria-hidden="true">&#11088;&#11088;&#11088;&#11088;&#11088;</div>
-                    <p>
-                        Orientações simples para o cliente entender o cuidado necessário no uso do equipamento.
-                    </p>
-                    <h3>Orientação</h3>
-                </article>
-            </div>
-        </section>
-    </main>
-
-    <footer class="footer">
-        <h2>Assis Tech</h2>
-
-        <p>Assistência técnica especializada em computadores e notebooks</p>
-
-        <div class="footer-redes" aria-label="Redes sociais">
-            <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram da Assis Tech">
-                <i class="fa-brands fa-instagram" aria-hidden="true"></i>
-            </a>
-            <a href="https://wa.me/5511999999999" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp da Assis Tech">
-                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
-            </a>
-            <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook da Assis Tech">
-                <i class="fa-brands fa-facebook" aria-hidden="true"></i>
-            </a>
         </div>
 
-        <p class="copy">
-            2026 Assis Tech. Todos os direitos reservados.
-        </p>
-    </footer>
-
-    <button class="botao-chat" type="button" aria-label="Abrir chat de suporte" aria-controls="chat-flutuante" aria-expanded="false">
-        <span aria-hidden="true">&#128172;</span>
-    </button>
-
-    <div class="chat-flutuante esconder-chat" id="chat-flutuante">
-        <div class="topo-chat">
-            <h3>Suporte Assis Tech</h3>
-        </div>
-
-        <div class="chat-box" aria-live="polite"></div>
-
-        <div class="area-envio">
-            <input
-                type="text"
-                class="input-chat"
-                placeholder="Digite sua mensagem..."
-                maxlength="140"
-                aria-label="Digite sua mensagem no chat"
-            >
-
-            <button class="enviar-chat" type="button">
-                Enviar
-            </button>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
-</body>
+        <script src="script.js"></script>
+    </body>
 </html>
